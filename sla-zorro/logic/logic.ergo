@@ -1,0 +1,77 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+namespace sla.zorro.templates
+
+import org.accordproject.time.*
+
+contract SLALogic over ServiceLevelAgreement {
+  // Simple Clause
+  clause helloworld(request : MyRequest) : MyResponse emits SLAViolation {
+    // some() for the optionals
+    
+    emit SLAViolation {
+      id: "SLAViolation1234",
+      href: "href1234567",
+      // date: contract.approvalDate,
+      date: some(dateTime("2010-03-10T00:00:00.000+01:00")),
+      // SLARef
+      sla: SLARef {
+        href: "slarefhref1234",
+        description: "reference1234 sla violation"
+      },
+      // RelatedPartyRef[]      
+      relatedParty: some([
+        RelatedPartyRef {
+          href: "relatedpartyref1234",
+          role: "owner",
+          name: "tomas",
+          validFor: TimePeriod {
+            startTime: dateTime("2010-03-10T00:00:00.000+01:00"),
+            endTime: dateTime("2010-03-10T00:00:00.000+01:00")
+          }
+        }, RelatedPartyRef {
+          href: "relatedpartyref12345",
+          role: "employee",
+          name: "tomas1234",
+          validFor: TimePeriod {
+            startTime: dateTime("2010-03-10T00:00:00.000+01:00"),
+            endTime: dateTime("2010-03-10T00:00:00.000+01:00")
+          }
+        }
+      ]),
+      // Violation
+      violation: Violation {
+        unit: "meter",
+        referenceValue: "1234",
+        operator: "tomas",
+        actualValue: "123456",
+        tolerance: "12%",
+        violationAverage: "11",
+        comment: "this was on day 23512",
+        consequence: "pay 25€ to me",
+        // RuleRef
+        rule: RuleRef {
+          href: "ref rule 1234",
+          description: "description of rule href 1234"
+        },
+        // AttachmentRef
+        attachment: AttachmentRef {
+          name: "attachment 1234",
+          description: "description of attachment 1234"
+        }
+    }
+    };
+    return MyResponse{ output: "Hello " ++ contract.name ++ " " ++ request.input }
+  }
+}

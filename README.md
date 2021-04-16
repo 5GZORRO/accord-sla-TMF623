@@ -1,1 +1,1 @@
-# accord-sla-TMF623
+# 5GZORRO Accord Templates

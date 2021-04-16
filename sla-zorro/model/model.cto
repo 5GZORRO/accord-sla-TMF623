@@ -1,0 +1,96 @@
+namespace sla.zorro.templates
+
+import org.accordproject.cicero.contract.* from https://models.accordproject.org/cicero/contract.cto
+import org.accordproject.cicero.runtime.* from https://models.accordproject.org/cicero/runtime.cto
+
+// Input Request
+transaction MyRequest extends Request {
+  o String input
+}
+
+// Output
+transaction MyResponse extends Response {
+  o String output
+}
+
+// SLA Model
+asset ServiceLevelAgreement extends AccordContract {
+  o String id
+  o String href
+  o String name
+  o String description
+  o String version
+  o TimePeriod validFor
+  o String state
+  o Boolean approved
+  o DateTime approvalDate optional
+  o TemplateRef template
+  o RelatedPartyRef[] relatedParty optional 
+  o Rule[] rule optional
+}
+
+concept TimePeriod {
+  o DateTime startTime
+  o DateTime endTime
+}
+
+concept TemplateRef {
+  o String href
+  o String name
+  o String description
+}
+
+concept RelatedPartyRef {
+  o String href
+  o String role
+  o String name
+  o TimePeriod validFor
+}
+
+concept Rule {
+  o String id
+  o String metric
+  o String unit
+  o String referenceValue
+  o String operator // should this be an enum? (< > <= <= != ==)
+  o String tolerance
+  o String consequence
+}
+
+// SLAViolation that's emitted
+event SLAViolation {
+  o String id
+  o String href
+  o DateTime date optional
+  o RelatedPartyRef[] relatedParty optional
+  o SLARef sla
+  o Violation violation
+}
+
+concept SLARef {
+  o String href
+  o String description
+}
+
+concept Violation {
+  o String unit
+  o String referenceValue
+  o String operator
+  o String actualValue
+  o String tolerance
+  o String violationAverage
+  o String comment
+  o String consequence
+  o RuleRef rule
+  o AttachmentRef attachment
+}
+
+concept RuleRef {
+  o String href
+  o String description
+}
+
+concept AttachmentRef {
+  o String name
+  o String description
+}

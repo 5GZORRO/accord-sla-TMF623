@@ -54,7 +54,7 @@ contract SLALogic over ServiceLevelAgreement {
       violation: Violation {
         unit: "meter",
         referenceValue: "1234",
-        operator: "tomas",
+        operator: EQUAL,
         actualValue: "123456",
         tolerance: "12%",
         violationAverage: "11",

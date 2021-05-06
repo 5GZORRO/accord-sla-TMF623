@@ -47,12 +47,21 @@ concept RelatedPartyRef {
   o TimePeriod validFor
 }
 
+enum Operator {
+  o EQUAL
+  o NOT_EQUAL
+  o GREATER
+  o GREATER_EQUAL
+  o LESS
+  o LESS_EQUAL
+}
+
 concept Rule {
   o String id
   o String metric
   o String unit
   o String referenceValue
-  o String operator // should this be an enum? (< > <= <= != ==)
+  o Operator operator // should this be an enum? (< > <= >= != ==)
   o String tolerance
   o String consequence
 }
@@ -75,7 +84,7 @@ concept SLARef {
 concept Violation {
   o String unit
   o String referenceValue
-  o String operator
+  o Operator operator
   o String actualValue
   o String tolerance
   o String violationAverage

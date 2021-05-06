@@ -18,7 +18,7 @@ Approved: true -> 25/12/2222.
 
 RULES:
 
-1. "rule1.1" : "bandwidth" - "ms" ("23ms"). Operator: "tomas batista", tolerance: "25%", consequence: "pay a penalty amount".
-2. "rule1.2" : "downtime" - "s" ("200s"). Operator: "tomas santos", tolerance: "36000s", consequence: "provide 1 free month".
+1. "rule1.1" : "bandwidth" - "ms" ("23ms"). Operator: EQUAL, tolerance: "25%", consequence: "pay a penalty amount".
+2. "rule1.2" : "downtime" - "s" ("200s"). Operator: EQUAL, tolerance: "36000s", consequence: "provide 1 free month".
 
 version: "v01.2.32".

@@ -1,0 +1,123 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+namespace sla.zorro.templates
+
+import org.accordproject.time.*
+
+contract SLALogic over ServiceLevelAgreement {
+  // Simple Clause
+  clause helloworld(request : MyRequest) : MyResponse emits SLAViolation {
+    // some() for the optionals
+    
+    emit SLAViolation {
+      id: "7467",
+      href: "http/www.acme.com/slaManagement/slaViolation/123444",
+      // date: contract.approvalDate,
+      date: some(dateTime("2018-03-10T00:00:00.000+01:00")),
+      // SLARef
+      sla: SLARef {
+        href: "http/www.acme.com/slaManagement/sla/123444",
+        description: "sla of premium video"
+      },
+      // RelatedPartyRef[]      
+      relatedParty: some([
+        RelatedPartyRef {
+          href: "http",
+          role: "SLAProvider",
+          name: "SLAProvider1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2010-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2030-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "SLAConsumer",
+          name: "SLAConsumer1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2015-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2040-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "SLAAuditor",
+          name: "SLAAuditor1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2013-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2020-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "SLABusinessBroker",
+          name: "SLABusinessBroker1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2009-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2025-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "SLATechnicalBroker",
+          name: "SLATechnicalBroker1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2008-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2023-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "ThirdPartySLAManager",
+          name: "ThirdPartySLAManager1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2011-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2022-08-09T00:00:00.000+01:00")
+          }
+        }, 
+        RelatedPartyRef {
+          href: "http",
+          role: "EndUser",
+          name: "EndUser1",
+          validFor: TimePeriod {
+            startDateTime: dateTime("2012-03-10T00:00:00.000+01:00"),
+            endDateTime: dateTime("2029-08-09T00:00:00.000+01:00")
+          }
+        },         
+      ]),
+      // Violation
+      violation: Violation {
+        unit: "string",
+        referenceValue: "available",
+        operator: EQUAL,
+        actualValue: "available",
+        tolerance: "0.05",
+        violationAverage: "0.1",
+        comment: "Availability below agreed level.",
+        consequence: "http://ww.acme.com/contract/clause/42",
+        // RuleRef
+        rule: RuleRef {
+          href: "http/www.zak.com/slaManagement/sla/123444/rules/availability",
+          description: "availability"
+        },
+        // AttachmentRef
+        attachment: AttachmentRef {
+          href: "https://foo.bar/screenshot.123",
+          description: "availabilitystatistics for August 2013"
+        }
+    }
+    };
+    return MyResponse{ output: "Hello " ++ contract.name ++ " " ++ request.input }
+  }
+}

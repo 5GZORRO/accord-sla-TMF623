@@ -1,0 +1,56 @@
+{
+    "id": "7467",
+    "href": "http/www.acme.com/slaManagement/slaViolation/123444",
+    "relatedParty": [
+        {
+            "href": "http://",
+            "role": "SLAProvider"
+        },
+        {
+            "href": "http://",
+            "role": "SLAConsumer"
+        },
+        {
+            "href": "http://",
+            "role": "SLAAuditor"
+        },
+        {
+            "href": "http://",
+            "role": "SLABusinessBroker"
+        },
+        {
+            "href": "http://",
+            "role": "SLATechnicalBroker"
+        },
+        {
+            "href": "http://",
+            "role": "ThirdPartySLAManager"
+        },
+        {
+            "href": "http://",
+            "role": "EndUser"
+        }
+    ],
+    "sla": {
+        "href": "http/www.acme.com/slaManagement/sla/123444",
+        "description": "sla of premium video"
+    },
+    "violation": {
+        "unit": "string",
+        "referenceValue": "available",
+        "operator": ".eq",
+        "actualValue": "available",
+        "tolerance": "0.05",
+        "violationAverage": "0.1",
+        "comment": "Availability below agreed level.",
+        "consequence": "http://ww.acme.com/contract/clause/42",
+        "attachment": {
+            "href": "https://foo.bar/screenshot.123",
+            "description": "availabilitystatistics for August 2013"
+        },
+        "rule": {
+            "href": "http/www.zak.com/slaManagement/sla/123444/rules/availability",
+            "description": "availability"
+        }
+    }
+}

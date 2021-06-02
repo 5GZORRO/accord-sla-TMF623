@@ -30,8 +30,8 @@ asset ServiceLevelAgreement extends AccordContract {
 }
 
 concept TimePeriod {
-  o DateTime startTime
-  o DateTime endTime
+  o DateTime startDateTime
+  o DateTime endDateTime
 }
 
 concept TemplateRef {
@@ -48,12 +48,12 @@ concept RelatedPartyRef {
 }
 
 enum Operator {
-  o EQUAL
-  o NOT_EQUAL
-  o GREATER
-  o GREATER_EQUAL
-  o LESS
-  o LESS_EQUAL
+  o EQUAL // Equal
+  o NOT_EQUAL // Not Equal
+  o GREATER // Greater
+  o GREATER_EQUAL // Greater or Equal
+  o LESS // Less
+  o LESS_EQUAL // Less or Equal
 }
 
 concept Rule {
@@ -61,7 +61,7 @@ concept Rule {
   o String metric
   o String unit
   o String referenceValue
-  o Operator operator // should this be an enum? (< > <= >= != ==)
+  o Operator operator
   o String tolerance
   o String consequence
 }
@@ -100,6 +100,6 @@ concept RuleRef {
 }
 
 concept AttachmentRef {
-  o String name
+  o String href
   o String description
 }

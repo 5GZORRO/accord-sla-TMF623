@@ -1,0 +1,4 @@
+{
+    "$class": "sla.zorro.templates.MyRequest",
+    "input": "World"
+}

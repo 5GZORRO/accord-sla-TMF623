@@ -1,0 +1,22 @@
+{
+    "$class": "sla.zorro.templates.availability_template.ServiceLevelAgreement",
+    "id": "",
+    "href": "http:myservice/slshsdf",
+    "name": "Availability SLA",
+    "description": "This Service Level Agreement ('SLA') is a policy governing the use of **resource XYZ**.",
+    "version": "0.0.1",
+    "rule": [
+      {
+        "$class": "sla.zorro.templates.availability_template.Rule",
+        "id": "availability",
+        "metric": "http://www.provider.com/metrics/availability",
+        "unit": "%",
+        "referenceValue": "99.95",
+        "operator": "GREATER",
+        "tolerance": "0.05",
+        "consequence": "10"
+      }
+    ],
+    "contractId": "fe46eb78-2f99-444e-ab9f-f93f8c68c10a",
+    "$identifier": "fe46eb78-2f99-444e-ab9f-f93f8c68c10a"
+}

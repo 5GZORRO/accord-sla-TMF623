@@ -1,0 +1,62 @@
+namespace sla.zorro.templates.availability_template
+
+import org.accordproject.time.*
+import org.accordproject.contract.Contract.*
+
+define function providerName(relatedParty: RelatedPartyRef[]?) : String? {
+  return (foreach p in relatedParty ?? [] where p.role = "SLAProvider" return p.name)[0]
+}
+
+define function getRule(rules: Rule[]?, ruleId: String) : Rule? {
+  return (foreach rule in rules ?? [] where rule.id = ruleId return rule)[0]
+}
+
+contract SLALogic over ServiceLevelAgreement {
+  
+  clause checkSLARule(request : CheckSLARequest) : BreachResult emits SLAViolation {
+    
+    // Load the rule metrics
+    let ruleToTest = getRule(contract.rule, request.ruleId);
+
+    if(ruleToTest = none)
+    then throw Error{ message: "Rule not found" } 
+    else
+
+    // PERFORM CHECKS ON MONITORING DATA 
+    let breachOccurred = true;     
+    let actual = "Actual value";
+    let violationAverage = "Average";
+
+    if(!breachOccurred)
+    then return BreachResult{ breachOccurred: false }
+    else 
+    emit SLAViolation {      
+      date: some(now()),      
+      relatedParty: contract.relatedParty,      
+      violation: Violation {
+        unit: ruleToTest?.unit ?? "",
+        referenceValue: ruleToTest?.referenceValue ?? "",
+        operator: ruleToTest?.operator ?? EQUAL,
+        actualValue: actual,
+        tolerance: ruleToTest?.tolerance ?? "",
+        violationAverage: violationAverage,
+        comment: "Availability below agreed level.",
+        consequence: ruleToTest?.consequence ?? "",
+        // RuleRef
+        // rule: RuleRef {
+        //   href: "http/www.zak.com/slaManagement/sla/123444/rules/availability",
+        //   description: "availability"
+        // },
+        // // AttachmentRef
+        // attachment: AttachmentRef {
+        //   href: "https://foo.bar/screenshot.123",
+        //   description: "availabilitystatistics for August 2013"
+        // }
+      } 
+    };
+
+    return BreachResult{ breachOccurred: breachOccurred }
+    
+  }
+}
+

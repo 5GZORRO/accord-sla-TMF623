@@ -1,5 +1,6 @@
 namespace sla.zorro.templates
 
+import org.accordproject.contract.Contract from https://models.accordproject.org/accordproject/contract.cto
 import org.accordproject.cicero.contract.* from https://models.accordproject.org/cicero/contract.cto
 import org.accordproject.cicero.runtime.* from https://models.accordproject.org/cicero/runtime.cto
 
@@ -14,7 +15,7 @@ transaction MyResponse extends Response {
 }
 
 // SLA Model
-asset ServiceLevelAgreement extends AccordContract {
+asset ServiceLevelAgreement extends Contract {
   o String id
   o String href
   o String name

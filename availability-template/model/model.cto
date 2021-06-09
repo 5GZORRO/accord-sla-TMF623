@@ -23,7 +23,7 @@ asset ServiceLevelAgreement extends Contract {
   o String description 
   o String version optional
   o TimePeriod validFor
-  // o String state
+ o String state
   // o Boolean approved
   // o DateTime approvalDate optional
   // o TemplateRef template

@@ -1,9 +1,14 @@
 # "Availability SLA"
-### Version: "0.0.1"
+**Status:** "New"
+
+**Version:** "0.0.1"
+
+This SLA is valid between **19/04/2013** and **21/04/2013**.
+
+### Named Parties
+- "http://": "SLAProvider" ("SLAProvider1"). Valid since 10/03/2010 until 09/08/2030.
 
 "This Service Level Agreement ('SLA') is a policy governing the use of **resource XYZ**." 
-
-SLA is active from **19/04/2013** until **21/04/2013**.
 
 In the event of a conflict between the terms of this SLA and the terms of any other agreement with {{% "JT" %}} governing your use of the Service (the 'Agreement'), the terms and conditions of this SLA apply, but only to the extent of such conflict. Capitalized terms used herein but not defined herein shall have the meanings set forth in the Agreement.
 
@@ -29,6 +34,3 @@ The Service Commitment does not apply to any unavailability, suspension or termi
 
 ### Template meta-data
 Id: ""
-
-### All Related Parties
-- "http://": "SLAProvider" ("SLAProvider1"). Valid since 10/03/2010 until 09/08/2030.

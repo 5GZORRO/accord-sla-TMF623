@@ -1,9 +1,16 @@
 # {{name}}
-### Version: {{version}}
+**Status:** {{state}}
+
+**Version:** {{version}}
+
+{{#with validFor}}This SLA is valid between **{{startDateTime as "DD/MM/YYYY"}}** and **{{endDateTime as "DD/MM/YYYY"}}**.{{/with}}
+
+### Named Parties
+{{#ulist relatedParty}}
+{{href}}: {{role}} ({{name}}). {{#with validFor}}Valid since {{startDateTime as "DD/MM/YYYY"}} until {{endDateTime as "DD/MM/YYYY"}}.{{/with}}
+{{/ulist}}
 
 {{description}}
-
-{{#with validFor}}SLA is active from **{{startDateTime as "DD/MM/YYYY"}}** until **{{endDateTime as "DD/MM/YYYY"}}**.{{/with}}
 
 In the event of a conflict between the terms of this SLA and the terms of any other agreement with {{% providerName(relatedParty) %}} governing your use of the Service (the 'Agreement'), the terms and conditions of this SLA apply, but only to the extent of such conflict. Capitalized terms used herein but not defined herein shall have the meanings set forth in the Agreement.
 
@@ -31,8 +38,3 @@ The Service Commitment does not apply to any unavailability, suspension or termi
 
 ### Template meta-data
 Id: {{id}}
-
-### All Related Parties
-{{#ulist relatedParty}}
-{{href}}: {{role}} ({{name}}). {{#with validFor}}Valid since {{startDateTime as "DD/MM/YYYY"}} until {{endDateTime as "DD/MM/YYYY"}}.{{/with}}
-{{/ulist}}

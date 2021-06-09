@@ -1,4 +1,5 @@
 {
-    "$class": "sla.zorro.templates.MyRequest",
-    "input": "World"
+  "$class": "sla.zorro.templates.availability_template.CheckSLARequest",
+  "ruleId": "availability",
+  "data": "asdasd"
 }

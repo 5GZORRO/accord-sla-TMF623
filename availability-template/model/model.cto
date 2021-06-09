@@ -16,18 +16,12 @@ transaction BreachResult extends Response {
 }
 
 // SLA Model
-asset ServiceLevelAgreement extends Contract {
-  o String id
-  //o String href optional 
+asset ServiceLevelAgreement extends Contract {  
   o String name 
   o String description 
-  o String version optional
+  o String version
   o TimePeriod validFor
- o String state
-  // o Boolean approved
-  // o DateTime approvalDate optional
-  // o TemplateRef template
-  o RelatedPartyRef[] relatedParty optional 
+  o RelatedPartyRef[] relatedParty 
   o Rule[] rule optional
 }
 
@@ -70,11 +64,8 @@ concept Rule {
 
 // SLAViolation that's emitted
 event SLAViolation {
-  //o String id
-  //o String href
-  o DateTime date optional
-  o RelatedPartyRef[] relatedParty optional
-  //o SLARef sla
+  o DateTime date
+  o RelatedPartyRef[] relatedParty   
   o Violation violation
 }
 
@@ -92,16 +83,4 @@ concept Violation {
   o String violationAverage
   o String comment
   o String consequence
- // o RuleRef rule
- // o AttachmentRef attachment
-}
-
-concept RuleRef {
-  o String href
-  o String description
-}
-
-concept AttachmentRef {
-  o String href
-  o String description
 }

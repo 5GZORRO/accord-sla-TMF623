@@ -1,22 +1,38 @@
 {
-    "$class": "sla.zorro.templates.availability_template.ServiceLevelAgreement",
-    "id": "",
-    "href": "http:myservice/slshsdf",
-    "name": "Availability SLA",
-    "description": "This Service Level Agreement ('SLA') is a policy governing the use of **resource XYZ**.",
-    "version": "0.0.1",
-    "rule": [
-      {
-        "$class": "sla.zorro.templates.availability_template.Rule",
-        "id": "availability",
-        "metric": "http://www.provider.com/metrics/availability",
-        "unit": "%",
-        "referenceValue": "99.95",
-        "operator": "GREATER",
-        "tolerance": "0.05",
-        "consequence": "10"
+  "$class": "sla.zorro.templates.availability_template.ServiceLevelAgreement",
+  "name": "Availability SLA",
+  "description": "This Service Level Agreement ('SLA') is a policy governing the use of **resource XYZ**.",
+  "version": "0.0.1",
+  "validFor": {
+    "$class": "sla.zorro.templates.availability_template.TimePeriod",
+    "startDateTime": "2013-04-19T00:00:00.000+01:00",
+    "endDateTime": "2013-04-21T00:00:00.000+01:00"
+  },
+  "relatedParty": [
+    {
+      "$class": "sla.zorro.templates.availability_template.RelatedPartyRef",
+      "href": "http://",
+      "role": "SLAProvider",
+      "name": "SLAProvider1",
+      "validFor": {
+        "$class": "sla.zorro.templates.availability_template.TimePeriod",
+        "startDateTime": "2010-03-10T03:00:00.000+01:00",
+        "endDateTime": "2030-08-09T00:00:00.000+01:00"
       }
-    ],
-    "contractId": "fe46eb78-2f99-444e-ab9f-f93f8c68c10a",
-    "$identifier": "fe46eb78-2f99-444e-ab9f-f93f8c68c10a"
+    }
+  ],
+  "rule": [
+    {
+      "$class": "sla.zorro.templates.availability_template.Rule",
+      "id": "availability",
+      "metric": "http://www.provider.com/metrics/availability",
+      "unit": "%",
+      "referenceValue": "99.95",
+      "operator": "GREATER",
+      "tolerance": "0.05",
+      "consequence": "10"
+    }
+  ],
+  "contractId": "65196d99-6177-4bb6-afc2-6a278662646a",
+  "$identifier": "65196d99-6177-4bb6-afc2-6a278662646a"
 }

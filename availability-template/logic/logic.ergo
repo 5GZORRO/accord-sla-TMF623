@@ -16,10 +16,6 @@
 import org.accordproject.time.*
 import org.accordproject.contract.Contract.*
 
-define function providerName(relatedParty: RelatedPartyRef[]) : String? {
-  return (foreach p in relatedParty where p.role = "SLAProvider" return p.name)[0]
-}
-
 define function getRule(rules: Rule[]?, ruleId: String) : Rule? {
   return (foreach rule in rules ?? [] where rule.id = ruleId return rule)[0]
 }

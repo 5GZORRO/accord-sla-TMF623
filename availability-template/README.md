@@ -2,65 +2,74 @@
 
 https://confluence.i2cat.net/display/5GP/SLA+format+and+metric+proposals
 
-# Accord Protocol Template: sla-zorro
+# Accord Protocol Template: availability-template
 
-The is an Accord Protocol Template. Executing the clause will simply echo back the text that occurs after the string `Hello` prepended to text that is passed in the request.
+The is an Accord Protocol Template for a basic availability SLA
+
+# Design Decisions
+
+## Model changes
+
+### SLA Model
+Removed fields belonging to the TMF SLA models that are not relevant to the prose.  As such when a TMF SLA model is loaded from the SLA Manager this should be mapped to an object that has the subset of properties that are required by this contract model.
+
+#### SLA.consequence
+Rather than setting a href value to some repository of consequences, the current implementation expects the consequence to be a value describing a number of service credits that should be awarded.  It may be decided that this is not flexible enough, but this is the current implementaiton. 
+
+### Violation Model
+The same goes for Violations, the accord contract doesn't have or need details regarding the SLARef (and other properties) as such the Violation model emitted in an obligation should be mapped to the larger full TMF Violation model and have these additional properties set before being published for subscribing apps to consume.
+
+### Model mapping principle
+With the above in mind it is expected that the portal (or client executing the cicero/ergo logic) will perform the following tasks
+
+**For Template creation**
+Generate an empty model that aligns with the contract model with preset values for version, a single related party (provider) and pass this into the template editor
+
+e.g.
+```{
+  "name": "",
+  "description": "",
+  "version": "0.0.1",
+  "validFor": {   
+    "startDateTime": "2013-04-19T00:00:00.000+01:00",
+    "endDateTime": "2013-04-21T00:00:00.000+01:00"
+  },
+  "relatedParty": [
+    {
+      "$class": "sla.zorro.templates.availability_template.RelatedPartyRef",
+      "href": "http://",
+      "role": "SLAProvider",
+      "name": "SLAProvider1",
+      "validFor": {
+        "$class": "sla.zorro.templates.availability_template.TimePeriod",
+        "startDateTime": "2010-03-10T03:00:00.000+01:00",
+        "endDateTime": "2030-08-09T00:00:00.000+01:00"
+      }
+    }
+  ],
+  "rule": [
+  ]
+}
+```
+**When Saving the SLA**
+Take the model populated in the editor and map to the full TMF Model .  Either set the values that have been loaded from the SLA Manager i.e. if performing an update, or by newing up an empty TMF Model, mapping the accord mdel values to it, and set any other required field values before submitting to the SLA Manager.
+
+**Emitted SLA Violations**
+Follow the principles as per above, map the Violation emitted to a full TMF Violation model, set any required fields and then submit to whatever API/queue as neccessary.
 
 ### Parse
 
-Use the `cicero parse` command to load a template from a directory on disk and then use it to parse input text, echoing the result of parsing. If the input text is valid the parsing result will be a JSON serialized instance of the Template Mode:
+Use the `cicero parse --template availability-template` command to load a template from a directory on disk and then use it to parse input text, echoing the result of parsing. If the input text is valid the parsing result will be a JSON serialized instance of the Template Mode:
 
-Sample template.tem:
+### Generate .cta archive
 
-```
-Name of the person to greet: [{name}].
-Thank you!
-```
+Use the `cicero archive --template availability-template` command to generate a .cta
 
-Sample.txt:
+### Trigger
 
-```
-Name of the person to greet: "Dan".
-Thank you!
-```
+Use the `cicero trigger` command to load a template from a directory on disk, instantiate a clause based on input text, and then invoke the clause using an incoming JSON payload.  By default it will use the `text/sample.md`, `data.json` and `request.json` to execute the request, but you can specify alternative files (see `cicero trigger --help` for how)
 
-```
-cicero parse --template ./sla-zorro/ --dsl ./sla-zorro/sample.txt
-Setting clause data: {"$class":"io.clause.helloworld.MyContract","name":"Dan"}
-```
-
-Or, attempting to parse invalid data will result in line and column information for the syntax error.
-
-Sample.txt:
-
-```
-FUBAR Name of the person to greet: "Dan".
-Thank you!
-```
-
-```
-{ Error: invalid syntax at line 1 col 1:
-
-  FUBAR  Name of the person to greet: "Dan".
-  ^
-Unexpected "F"
-```
-
-### Execute
-
-Use the `cicero execute` command to load a template from a directory on disk, instantiate a clause based on input text, and then invoke the clause using an incoming JSON payload.
-
-```
-data.json:
-{
-   "$class": "sla.zorro.templates.MyRequest",
-   "input": "World"
-}
-```
-
-```
-cicero execute --template ./sla-zorro/ --dsl ./sla-zorro/sample.txt --data ./sla-zorro/data.json
-```
+`cicero trigger --template availability-template`
 
 The results of execution (a JSON serialized object) are displayed. They include:
 
@@ -68,18 +77,3 @@ The results of execution (a JSON serialized object) are displayed. They include:
 - The incoming request object
 - The output response object
 
-```
-{
-   "clause":"helloworld@0.0.3-c8d9e40fe7c5a479d1a80bce2d2fdc3c8a240ceb44a031d38cbd619e9b795b60",
-   "request":{
-      "$class":"sla.zorro.templates.Request",
-      "input":"World"
-   },
-   "response":{
-      "$class":"sla.zorro.templates.Response",
-      "output":"Hello Dan World",
-      "transactionId":"cf1dabb5-d604-4ffa-8a87-8333e77a735a",
-      "timestamp":"2017-10-31T10:47:42.055Z"
-   }
-}
-```

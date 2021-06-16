@@ -1,0 +1,5 @@
+{
+  "$class": "sla.zorro.templates.availability_template.CheckSLARequest",
+  "ruleId": "availability",
+  "data": "asdasd"
+}

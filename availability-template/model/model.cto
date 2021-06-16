@@ -1,0 +1,86 @@
+namespace sla.zorro.templates.availability_template
+
+import org.accordproject.contract.Contract from https://models.accordproject.org/accordproject/contract.cto
+import org.accordproject.cicero.contract.* from https://models.accordproject.org/cicero/contract.cto
+import org.accordproject.cicero.runtime.* from https://models.accordproject.org/cicero/runtime.cto
+
+// Input Request
+transaction CheckSLARequest extends Request {
+  o String ruleId
+  o String data
+}
+
+// Output
+transaction BreachResult extends Response {
+  o Boolean breachOccurred
+}
+
+// SLA Model
+asset ServiceLevelAgreement extends Contract {  
+  o String name 
+  o String description 
+  o String version
+  o TimePeriod validFor
+  o RelatedPartyRef[] relatedParty 
+  o Rule[] rule optional
+}
+
+concept TimePeriod {
+  o DateTime startDateTime
+  o DateTime endDateTime
+}
+
+concept TemplateRef {
+  o String href
+  o String name
+  o String description
+}
+
+concept RelatedPartyRef {
+  o String href
+  o String role
+  o String name
+  o TimePeriod validFor
+}
+
+enum Operator {
+  o EQUAL // Equal
+  o NOT_EQUAL // Not Equal
+  o GREATER // Greater
+  o GREATER_EQUAL // Greater or Equal
+  o LESS // Less
+  o LESS_EQUAL // Less or Equal
+}
+
+concept Rule {
+  o String id
+  o String metric
+  o String unit
+  o String referenceValue
+  o Operator operator
+  o String tolerance
+  o String consequence
+}
+
+// SLAViolation that's emitted
+event SLAViolation {
+  o DateTime date
+  o RelatedPartyRef[] relatedParty   
+  o Violation violation
+}
+
+concept SLARef {
+  o String href
+  o String description
+}
+
+concept Violation {
+  o String unit
+  o String referenceValue
+  o Operator operator
+  o String actualValue
+  o String tolerance
+  o String violationAverage
+  o String comment
+  o String consequence
+}

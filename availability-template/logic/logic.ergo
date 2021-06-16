@@ -1,0 +1,61 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ namespace sla.zorro.templates.availability_template
+
+import org.accordproject.time.*
+import org.accordproject.contract.Contract.*
+
+define function getRule(rules: Rule[]?, ruleId: String) : Rule? {
+  return (foreach rule in rules ?? [] where rule.id = ruleId return rule)[0]
+}
+
+contract SLALogic over ServiceLevelAgreement {
+  
+  clause checkSLARule(request : CheckSLARequest) : BreachResult emits SLAViolation {
+    
+    // Load the rule metrics
+    let ruleToTest = getRule(contract.rule, request.ruleId);
+
+    if(ruleToTest = none)
+    then throw Error{ message: "Rule not found" } 
+    else
+
+    // PERFORM CHECKS ON MONITORING DATA 
+    let breachOccurred = true;     
+    let actual = "Actual value";
+    let violationAverage = "Average";
+
+    if(!breachOccurred)
+    then return BreachResult{ breachOccurred: false }
+    else 
+    emit SLAViolation {      
+      date: now(),      
+      relatedParty: contract.relatedParty,      
+      violation: Violation {
+        unit: ruleToTest?.unit ?? "",
+        referenceValue: ruleToTest?.referenceValue ?? "",
+        operator: ruleToTest?.operator ?? EQUAL,
+        actualValue: actual,
+        tolerance: ruleToTest?.tolerance ?? "",
+        violationAverage: violationAverage,
+        comment: "Availability below agreed level.",
+        consequence: ruleToTest?.consequence ?? ""        
+      } 
+    };
+
+    return BreachResult{ breachOccurred: breachOccurred }
+    
+  }
+}
+
